@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {DndContext} from '@dnd-kit/core';
+import { useReducer } from "react";
+import { DndContext } from '@dnd-kit/core';
 
 interface Task {
     id: number;
@@ -7,62 +7,68 @@ interface Task {
     description: string;
 }
 
-export default function Board() {
+interface Column {
+    id : number;
+    title : string;
+    tasks : Task[];
+}
 
-    const [columns, setColumns] = useState<{ id: number; title: string; tasks: Task[] }[]>([
-        { id: 1, title: "To Do", tasks: [] },
-        { id: 2, title: "In Progress", tasks: [] },
-        { id: 3, title: "Done", tasks: [] },
-    ]);
+type BoardState = {
+    columns: Column[];
+}
 
-    function AddTaskToColumn(taskTitle : string, taskDescription : string, columnIndex : number)
+type BoardActions = 
+    | { type: "ADD_TASK"; payload: { task: Task; columnIndex: number } }
+    | { type: "REMOVE_TASK"; payload: { taskId : number; columnIndex : number } }
+    | { type: "ADD_COLUMN"; payload: { columnTitle : string } }
+    | { type: "REMOVE_COLUMN"; payload: { columnIndex : number } };
+
+function BoardReducer(state: BoardState, action: BoardActions): BoardState {
+    switch (action.type) 
     {
-        const newTask : Task = {
-            id: Date.now(),
-            title: taskTitle,
-            description : taskDescription,
-        };
+        case "ADD_TASK": 
+            const addedState = [...state.columns];
+            addedState[action.payload.columnIndex].tasks.push({                    id: Date.now(),
+                title: action.payload.task.title,
+                description: action.payload.task.description,
+            });
+            return { columns: addedState };
 
-        setColumns(prev => {
-            const updatedColumns = [...prev];
-            updatedColumns[columnIndex].tasks.push(newTask);
-            return updatedColumns;
-        })
+        case "REMOVE_TASK":
+            const removedState = [...state.columns];
+            removedState[action.payload.columnIndex].tasks =
+                removedState[action.payload.columnIndex].tasks.filter(
+                    task => task.id !== action.payload.taskId
+                );
+            return { columns: removedState };
+
+        case "ADD_COLUMN":
+            const newColumn = [...state.columns];
+            newColumn.push({
+                id: Date.now(),
+                title: action.payload.columnTitle,
+                tasks: [],
+            });
+            return { columns: newColumn };
+
+        case "REMOVE_COLUMN":
+            const fewerColumns = [...state.columns];
+            fewerColumns.splice(action.payload.columnIndex, 1);
+            return { columns: fewerColumns };
     }
+}
 
-    function RemoveTaskFromColumn(taskId : number, columnIndex : number)
-    {
-        setColumns(prev => {
-            const updatedColumns = [...prev];
-            updatedColumns[columnIndex].tasks = 
-            updatedColumns[columnIndex].tasks.filter(
-                task => task.id !== taskId
-            );
+export default function Board() {    
 
-            return updatedColumns;
-        });
-    }
+    const initialState: BoardState = {
+        columns: [
+            { id: 1, title: "To-Do", tasks: [] },
+            { id: 2, title: "In Progress", tasks: [] },
+            { id: 3, title: "Done", tasks: [] },
+        ],
+    };
 
-    function CreateNewColumn(columnTitle : string)
-    {
-        const newColumn = {
-            id: Date.now(),
-            title: columnTitle,
-            tasks: [] as Task[],
-        };
-
-        setColumns(prev => [...prev, newColumn]);
-    }
-
-    function RemoveColumn(columnIndex : number)
-    {
-        setColumns(prev => {
-            const updatedColumns = [...prev];
-            updatedColumns.splice(columnIndex, 1);
-            
-            return updatedColumns;
-        });
-    }
+    const [state, dispatch] = useReducer(BoardReducer, initialState);
 
     return (
         <DndContext>
