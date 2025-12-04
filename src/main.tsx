@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Layout from './Layout.tsx'
+import Home from './pages/Home.tsx'
 
 // css
 import './index.css'
@@ -13,10 +14,14 @@ const router = createBrowserRouter([
     Component: Layout,
     children: [
       {
-        path: "login",
+        path: "/",
+        Component: Home,
       },
     ]
   },
+   {
+    path: "/dashboard/",
+   }
 ])
 
 createRoot(document.getElementById('root')!).render(

@@ -12,7 +12,7 @@ const navLinks = [
 
 export default function Nav() {
   return (
-    <nav className="flex flex-row justify-between light:bg-white py-4 px-10">
+    <nav className="flex flex-row justify-between light:bg-white py-4 px-10 shadow-2xl">
         <div className="flex flex-row gap-8">
           <div className="flex flex-row gap-1 mr-3 items-center">
             <SVG width={24} height={24} path={logo.path} viewBox={logo.viewBox} color="#1cc549ff" />
@@ -20,16 +20,18 @@ export default function Nav() {
           </div>
           <div className="flex flex-row gap-12 grow items-center">
             { navLinks.map((link) => (
-              <div className="flex flex-row items-center gap-0.5">
-                <NavLink className="font-montserrat font-medium light:text-zinc-900" key={link.to} to={link.to}>{link.label}</NavLink>
-                <SVG width={18} height={18} path={chevron.path} viewBox={chevron.viewBox} color="#1cc549ff"/>
+              <div className="">
+                <NavLink className="font-montserrat font-medium light:text-zinc-900 flex flex-row items-center gap-0.5" key={link.to} to={link.to}>
+                  {link.label}
+                  <SVG width={18} height={18} path={chevron.path} viewBox={chevron.viewBox} color="#1cc549ff"/>
+                </NavLink>
               </div>
             )) }
           </div>
         </div>
         <div className="flex flex-row gap-3">
           <button className="flex items-center">
-            <NavLink className="font-montserrat font-medium bg-zinc-100 ring-2 ring-green-400 text-green-400 text-sm px-4 py-2 rounded-xl" to="/login ">Log in</NavLink>
+            <NavLink className="font-montserrat font-medium bg-zinc-100 ring-2 ring-green-400 text-green-400 text-sm px-4 py-2 rounded-xl" to="/login ">Log In</NavLink>
           </button>
           <button className="flex items-center">
             <NavLink className="font-montserrat font-medium bg-green-400 ring-2 ring-zinc-100 text-zinc-100 text-sm px-4 py-2 rounded-xl" to="/signup">Sign Up</NavLink>
