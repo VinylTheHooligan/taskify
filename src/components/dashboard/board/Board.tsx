@@ -28,7 +28,8 @@ function BoardReducer(state: BoardState, action: BoardActions): BoardState {
     {
         case "ADD_TASK": 
             const addedState = [...state.columns];
-            addedState[action.payload.columnIndex].tasks.push({                    id: Date.now(),
+            addedState[action.payload.columnIndex].tasks.push({                    
+                id: Date.now(),
                 title: action.payload.task.title,
                 description: action.payload.task.description,
             });
