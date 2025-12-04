@@ -1,73 +1,35 @@
-# React + TypeScript + Vite
+# Taskify – Application Kanban de gestion de tâches (Front)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Objectif
+Taskify est une application web de type to-do list inspirée du modèle Kanban.  
+Ce dépôt représente la **partie front** du projet, c’est-à-dire l’interface utilisateur qui permet d’afficher et d’interagir avec les données.
 
-Currently, two official plugins are available:
+## Stack technique
+- **React 19** avec **Vite** pour le développement et le build.  
+- **TailwindCSS 4** pour la mise en page et le style.  
+- **React Router v7 (Data API)** pour la navigation et la gestion des données via `loader` et `action`.  
+- **dnd-kit** pour le glisser-déposer des tâches.  
+- **TypeScript ~5.9** pour la sécurité et la clarté du code.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Choix architecturaux
+- Pas de rendu serveur ni d’outils orientés SEO, l’application est pensée uniquement pour l’usage.  
+- Les `loader` et `action` de React Router centralisent la récupération et la mise à jour des données.  
+- Le drag & drop est géré directement avec dnd-kit.  
+- Les mises à jour d’état respectent l’immuabilité pour assurer la réactivité.  
+- Les composants sont conçus pour être réutilisables et faciles à maintenir.
 
-## React Compiler
+## Points forts
+- Temps de build rapide grâce à Vite.  
+- Architecture simple, sans surcharge inutile.  
+- Glisser-déposer fluide pour déplacer les tâches entre colonnes.  
+- Code structuré et maintenable avec TypeScript.  
+- Interface responsive et cohérente grâce à TailwindCSS.  
+- Dépendances limitées à l’essentiel.  
+- Développement fluide avec le rechargement à chaud.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Fonctionnalités
+- 📋 Créer, modifier et supprimer des tâches  
+- 🔄 Déplacer les tâches entre colonnes par glisser-déposer  
+- ➕ Ajouter ou supprimer des colonnes Kanban  
+- 🎨 Interface adaptée aux différents écrans  
+- ⚡ Navigation gérée par React Router  
